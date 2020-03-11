@@ -59,47 +59,6 @@ request('https://jsonplaceholder.typicode.com/posts', function (error, response,
     })
 });
 
-request('https://jsonplaceholder.typicode.com/comments', function (error, response, body) {
-    var arr = JSON.parse(response.body);
-    arr.map( item => {
-        // console.log('comment item: ', item);
-        let newData = {
-            name : item.name,
-            body : item.body
-        }
-        UserList.getAllLists((err, lists)=> {
-            // console.log(err, lists);
-            var users = lists;
-            users.map(item1 => {
-                console.log('item111: ', item1);
-                
-                item1.posts.map( item2 => {
-                    console.log('item 2222222222: ', item2);
-                    
-                    if (item2['postId'] == item.postId) {
-                        UserList.updatePostsByComments(item2['postId'], newData, (err,list) => {
-                            if(err) {
-                                // res.json({success:false, message: `Failed to update the list. Error: ${err}`});
-                            }
-                            else if(list) {
-                                console.log('updated: '); 
-                            }
-                        })
-                    }
-                })
-            })
-            if(err) {
-                console.log(err);
-                
-                // res.json({success:false, message: `Failed to load all lists. Error: ${err}`});
-            }
-            else {
-                // res.json({data: lists, success:true, message: "Data fetched successfully"});
-        }
-        });
-    })
-});
-
 module.exports = router;
 
 //Middleware for CORS

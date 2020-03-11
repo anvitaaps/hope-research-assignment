@@ -12,7 +12,7 @@ const Userchema = mongoose.Schema({
     email: String,
     password: String,
     role: String,
-    posts: [ { postId: Number , title: String , body: String , comments: [ { name: String, body: String } ] }]
+    posts: [ { postId: Number , title: String , body: String }]
 });
 
 const UserList = module.exports = mongoose.model('UserList', Userchema );
@@ -41,13 +41,6 @@ module.exports.updateListByPosts = (id, newData,callback) => {
     let query = {id: id};
     UserList.findOneAndUpdate(query, { $push : {"posts": newData }}, callback);
 }
-
-//Here we need to pass an id parameter to UserList.updateOne
-module.exports.updatePostsByComments = (id, newData,callback) => {
-    // console.log('new updated data : ', newData, id, UserList);
-    var query  = UserList.where({ postId: id });
-    UserList.findOneAndUpdate(query, { $push : {"comments": newData }}, callback);
-} 
 
 //Here we need to pass an id parameter to UserList.updateOne
 module.exports.checkUser = (Data,callback) => {
